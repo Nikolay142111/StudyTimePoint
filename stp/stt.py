@@ -70,38 +70,37 @@ def write_date_control(point):
     with open('datacontrol.json', 'r') as file:
         data = json.load(file)
 
-    save_name = str(datetime.date.today())
+    point_add = 9 #сколько очков должно прибавляться в этот день
 
-
-    # Получаем последнюю дату и очки
+    # Получаем последнюю дату
     last_date = max(data.keys())
-    last_point = data[last_date]["point"]
 
     # Получаем текущую дату
     current_date = datetime.date.today()
 
     # Проверяем, есть ли пропущенные дни
-    while last_date != str(current_date):
-        # Увеличиваем дату на 1 день
-        last_date = (date.fromisoformat(last_date) + timedelta(days=1)).isoformat()
+    if last_date != str(current_date):
+        while last_date != str(current_date):
 
-        # Добавляем пропущенный день с 11 очками
-        data[last_date] = {"point": last_point + 11}
+            point_add = 9 #сколько очков должно прибавляться в этот день
+            #получаем текущие очки
+            last_point = data[last_date]["point"]
+            # Увеличиваем дату на 1 день
+            last_date = (date.fromisoformat(last_date) + timedelta(days=1)).isoformat()
+
+            # Добавляем пропущенный день с point_add
+            data[last_date] = {"point": last_point + -point_add}
+
+    last_point = data[last_date]["point"]
+    data[last_date] = {"point": last_point + point}
+
+
 
         # Сохраняем обновленные данные в файл
     with open("datacontrol.json", "w") as file:
         json.dump(data, file, indent=4)
 
 
-
-    # # Присвоение новому ключу new_obj значения new_obj
-    # data[save_name] = {'point': point}
-    #
-    # # Запись обновлённых данных в файл JSON
-    # with open('datacontrol.json', 'w') as file:
-    #     json.dump(data, file, indent=4)
-
-#Запись нового объекта в datalog.json
 def write_datalog(new_obj):
     # Чтение содержимого файла JSON
     with open('datalog.json', 'r') as file:
@@ -174,7 +173,7 @@ def write_datalog_part_2():
     start_time = data[save_number]['start_time']
     total_time = calculate_time_difference(start_time, end_time)
     factor_point = 1
-    points_given = round(total_time // 10 * factor_point)-1# points give for time
+    points_given = round(total_time // 10 * factor_point)+1000# points give for time
 
 
     # Обновляем словарь data с помощью новых значений
