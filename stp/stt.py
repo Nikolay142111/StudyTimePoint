@@ -2,7 +2,7 @@ import datetime
 import os
 import json
 import time
-
+from datetime import date, timedelta
 
 #создает файлы JSON если их нет
 def create_json():
@@ -65,8 +65,6 @@ def day_week_chek():
 
 #Запись нового объекта в datacontrol.json
 def write_date_control(point):
-    import json
-    import datetime
 
     # Чтение содержимого файла JSON
     with open('datacontrol.json', 'r') as file:
@@ -74,12 +72,34 @@ def write_date_control(point):
 
     save_name = str(datetime.date.today())
 
-    # Присвоение новому ключу new_obj значения new_obj
-    data[save_name] = {'point': point}
 
-    # Запись обновлённых данных в файл JSON
-    with open('datacontrol.json', 'w') as file:
+    # Получаем последнюю дату и очки
+    last_date = max(data.keys())
+    last_point = data[last_date]["point"]
+
+    # Получаем текущую дату
+    current_date = datetime.date.today()
+
+    # Проверяем, есть ли пропущенные дни
+    while last_date != str(current_date):
+        # Увеличиваем дату на 1 день
+        last_date = (date.fromisoformat(last_date) + timedelta(days=1)).isoformat()
+
+        # Добавляем пропущенный день с 11 очками
+        data[last_date] = {"point": last_point + 11}
+
+        # Сохраняем обновленные данные в файл
+    with open("datacontrol.json", "w") as file:
         json.dump(data, file, indent=4)
+
+
+
+    # # Присвоение новому ключу new_obj значения new_obj
+    # data[save_name] = {'point': point}
+    #
+    # # Запись обновлённых данных в файл JSON
+    # with open('datacontrol.json', 'w') as file:
+    #     json.dump(data, file, indent=4)
 
 #Запись нового объекта в datalog.json
 def write_datalog(new_obj):
@@ -91,13 +111,6 @@ def write_datalog(new_obj):
     # Запись обновлённых данных в файл JSON
     with open('datalog.json', 'w') as file:
         json.dump(data, file, indent=4)
-
-
-
-
-
-
-
 
 #получение последнего номера записи в datalog.json
 def number_assignment():
@@ -134,20 +147,6 @@ def calculate_time_difference(start_time, end_time):
     total_minutes = int(time_difference.total_seconds() / 60)
     return total_minutes
 
-# Определяет количество необходимых points в день
-# def points_to_day():
-#     return points
-
-#part1
-
-
-
-
-
-
-
-
-
 
 def create_nev_log_part_1():
     name_obj = str(number_assignment()+1)
@@ -175,7 +174,7 @@ def write_datalog_part_2():
     start_time = data[save_number]['start_time']
     total_time = calculate_time_difference(start_time, end_time)
     factor_point = 1
-    points_given = round(total_time // 10 * factor_point)# points give for time
+    points_given = round(total_time // 10 * factor_point)-1# points give for time
 
 
     # Обновляем словарь data с помощью новых значений
@@ -190,14 +189,6 @@ def write_datalog_part_2():
     print(f'запись {save_number} закрыта')
     write_date_control(points_given)
 
-# with open('datalog.json', 'r') as file:
-#     data = json.load(file)
-#
-# # Получите значение start_time из ключа "3"
-# start_time = data['3']['start_time']
-#
-# # Выведите значение start_time
-# print(start_time)
 create_nev_log_part_1()
 time.sleep(2)
 write_datalog_part_2()
