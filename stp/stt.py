@@ -200,8 +200,8 @@ def create_nev_log_part_1():
                "date": date,
                "day_week": day_week,
                "start_time": start_time}
-    print(f'запись {name_obj} создана')
     write_datalog(new_obj)
+    return(f'запись {name_obj} создана')
 
 
 def write_datalog_part_2():
@@ -225,10 +225,10 @@ def write_datalog_part_2():
     # Записываем обновленный словарь data в JSON-файл
     with open('datalog.json', 'w') as file:
         json.dump(data, file, indent=4)
-    print(f'запись {save_number} закрыта')
     write_date_control(points_given)
+    return (f'запись {save_number} закрыта')
 
 
-create_nev_log_part_1()
-time.sleep(2)
-write_datalog_part_2()
+#create_nev_log_part_1()
+
+#write_datalog_part_2()
