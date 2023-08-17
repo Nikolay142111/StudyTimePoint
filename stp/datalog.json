@@ -4,112 +4,54 @@
         "save_number": 1,
         "date": "2023-08-16",
         "day_week": "Wednesday",
-        "start_time": "2023-08-16 14:07:23"
+        "start_time": "2023-08-16 19:12",
+        "end_time": "2023-08-16 19:12",
+        "total_time": 0,
+        "factor_point": 1,
+        "points_given": 5
     },
     "2": {
         "name_obj": "2",
         "save_number": 2,
         "date": "2023-08-16",
         "day_week": "Wednesday",
-        "start_time": "2023-08-16 Wednesday 14:09",
-        "end_time": "2023-08-16 Wednesday 14:09",
+        "start_time": "2023-08-16 19:13",
+        "end_time": "2023-08-16 19:13",
         "total_time": 0,
         "factor_point": 1,
-        "points_given": 1000
+        "points_given": 5
     },
     "3": {
         "name_obj": "3",
         "save_number": 3,
         "date": "2023-08-16",
         "day_week": "Wednesday",
-        "start_time": "2023-08-16 Wednesday 14:10",
-        "end_time": "2023-08-16 Wednesday 14:10",
+        "start_time": "2023-08-16 19:13",
+        "end_time": "2023-08-16 19:13",
         "total_time": 0,
         "factor_point": 1,
-        "points_given": 1000
+        "points_given": 5
     },
     "4": {
         "name_obj": "4",
         "save_number": 4,
         "date": "2023-08-16",
         "day_week": "Wednesday",
-        "start_time": "2023-08-16 Wednesday 14:11",
-        "end_time": "2023-08-16 Wednesday 14:11",
+        "start_time": "2023-08-16 19:14",
+        "end_time": "2023-08-16 19:14",
         "total_time": 0,
         "factor_point": 1,
-        "points_given": 1000
+        "points_given": 5
     },
     "5": {
         "name_obj": "5",
         "save_number": 5,
         "date": "2023-08-16",
         "day_week": "Wednesday",
-        "start_time": "2023-08-16 Wednesday 14:12",
-        "end_time": "2023-08-16 Wednesday 14:12",
+        "start_time": "2023-08-16 19:17",
+        "end_time": "2023-08-16 19:17",
         "total_time": 0,
         "factor_point": 1,
-        "points_given": 1000
-    },
-    "6": {
-        "name_obj": "6",
-        "save_number": 6,
-        "date": "2023-08-16",
-        "day_week": "Wednesday",
-        "start_time": "2023-08-16 Wednesday 14:12",
-        "end_time": "2023-08-16 Wednesday 14:12",
-        "total_time": 0,
-        "factor_point": 1,
-        "points_given": 1000
-    },
-    "7": {
-        "name_obj": "7",
-        "save_number": 7,
-        "date": "2023-08-16",
-        "day_week": "Wednesday",
-        "start_time": "2023-08-16 Wednesday 14:12",
-        "end_time": "2023-08-16 Wednesday 14:12",
-        "total_time": 0,
-        "factor_point": 1,
-        "points_given": 1000
-    },
-    "8": {
-        "name_obj": "8",
-        "save_number": 8,
-        "date": "2023-08-16",
-        "day_week": "Wednesday",
-        "start_time": "2023-08-16 Wednesday 14:17",
-        "end_time": "2023-08-16 Wednesday 14:17",
-        "total_time": 0,
-        "factor_point": 1,
-        "points_given": 1000
-    },
-    "9": {
-        "name_obj": "9",
-        "save_number": 9,
-        "date": "2023-08-16",
-        "day_week": "Wednesday",
-        "start_time": "2023-08-16 14:20"
-    },
-    "10": {
-        "name_obj": "10",
-        "save_number": 10,
-        "date": "2023-08-16",
-        "day_week": "Wednesday",
-        "start_time": "2023-08-16 14:26",
-        "end_time": "2023-08-16 14:26",
-        "total_time": 0,
-        "factor_point": 1,
-        "points_given": 1000
-    },
-    "11": {
-        "name_obj": "11",
-        "save_number": 11,
-        "date": "2023-08-16",
-        "day_week": "Wednesday",
-        "start_time": "2023-08-16 14:26",
-        "end_time": "2023-08-16 14:26",
-        "total_time": 0,
-        "factor_point": 1,
-        "points_given": 1000
+        "points_given": 100
     }
 }

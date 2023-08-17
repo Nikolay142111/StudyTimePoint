@@ -5,15 +5,23 @@ import time
 from datetime import date, timedelta
 
 
-# создает файлы JSON если их нет
+# создает файлы JSON если их нет.
 def create_json():
     file_path = 'datacontrol.json'
     file_path_2 = 'holidays.json'
     file_path_3 = 'datalog.json'
     # Проверка наличия файла datacontrol.json
     if not os.path.isfile(file_path):
-        # Создание нового файла
-        data = {}
+        # Получение текущей даты
+        current_date = datetime.date.today()
+
+        # Создание словаря
+        data = {
+            str(current_date): {
+                "point": 6
+            }
+        }
+
         with open(file_path, 'w') as file:
             json.dump(data, file, indent=4)
         print('Файл datacontrol.json создан')
@@ -23,7 +31,7 @@ def create_json():
     # Проверка наличия файла holidays.json
     if not os.path.isfile(file_path_2):
         # Создание нового файла
-        data = {}
+        data = []
         with open(file_path_2, 'w') as file:
             json.dump(data, file, indent=4)
         print('Файл holidays.json создан')
@@ -50,7 +58,6 @@ def write_date_control(point):
     with open('datacontrol.json', 'r') as file:
         data = json.load(file)
 
-    point_add = 9  # сколько очков должно прибавляться в этот день
 
     # Получаем последнюю дату
     last_date = max(data.keys())
@@ -61,7 +68,14 @@ def write_date_control(point):
     # Проверяем, есть ли пропущенные дни
     if last_date != str(current_date):
         while last_date != str(current_date):
-            point_add = 9  # сколько очков должно прибавляться в этот день
+
+            # сколько очков должно убавляться в этот день
+            check_holidays = holiday_check(last_date)
+            if check_holidays == True:
+                point_add = 25
+            else:
+                point_add = 10
+
             # получаем текущие очки
             last_point = data[last_date]["point"]
             # Увеличиваем дату на 1 день
@@ -106,20 +120,66 @@ def number_assignment():
 
 
 # записывает в файл интервалы каникул
-def holidays_write_json(start_date, stop_date):
-    # Чтение содержимого файла JSON
-    with open('holidays.json', 'r') as file:
-        data = json.load(file)
-    # Присвоение новому ключу new_obj значения new_obj
-    data['holidays ' + str(start_date) + ' - ' + str(stop_date)] = {'start_date_holidays': str(start_date),
-                                                                    'stop_date_holidays': str(stop_date),
-                                                                    'save_number': 0}
-    # Запись обновлённых данных в файл JSON
+# def holidays_write_json(start_date, stop_date):
+#     # Чтение содержимого файла JSON
+#     with open('holidays.json', 'r') as file:
+#         data = json.load(file)
+#     # Присвоение новому ключу new_obj значения new_obj
+#     data['holidays ' + str(start_date) + ' - ' + str(stop_date)] = {'start_date_holidays': str(start_date),
+#                                                                     'stop_date_holidays': str(stop_date),
+#                                                                     'save_number': 0}
+#     # Запись обновлённых данных в файл JSON
+#     with open('holidays.json', 'w') as file:
+#         json.dump(data, file, indent=4)
+#
+#
+# # holidays_write_json('nohgfnon', '11')
+
+def write_dates_holidays(start_date, end_date):
+    # Преобразуем строки дат в объекты datetime.date
+    start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+    end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d").date()
+
+    # Создаем список дат в указанном диапазоне
+    date_range = [start_date + datetime.timedelta(days=x) for x in range((end_date - start_date).days + 1)]
+
+    try:
+        # Загружаем уже записанные даты из файла holidays.json
+        with open('holidays.json', 'r') as file:
+            existing_dates = json.load(file)
+    except FileNotFoundError:
+        existing_dates = []
+
+
+    # Фильтруем новые даты, оставляя только те, которых еще нет в уже записанных датах
+    new_dates = [date.strftime("%Y-%m-%d") for date in date_range if date.strftime("%Y-%m-%d") not in existing_dates]
+
+    # Объединяем старые и новые даты
+    updated_dates = existing_dates + new_dates
+
+    # Записываем обновленные даты в файл holidays.json
     with open('holidays.json', 'w') as file:
-        json.dump(data, file, indent=4)
+        json.dump(updated_dates, file, indent=4)
+
+write_dates_holidays("2023-08-07", "2023-08-10")
 
 
-# holidays_write_json('nohgfnon', '11')
+
+def holiday_check(date):
+    try:
+        # Загружаем уже записанные даты из файла holidays.json
+        with open('holidays.json', 'r') as file:
+            existing_dates = json.load(file)
+    except FileNotFoundError:
+        existing_dates = []
+
+    if date in existing_dates:
+        return True
+    else:
+        return False
+
+result = holiday_check("2025-08-10")
+print(result)
 
 def calculate_time_difference(start_time, end_time):
     start_datetime = datetime.datetime.strptime(start_time, "%Y-%m-%d %H:%M")
@@ -154,7 +214,7 @@ def write_datalog_part_2():
     start_time = data[save_number]['start_time']
     total_time = calculate_time_difference(start_time, end_time)
     factor_point = 1
-    points_given = round(total_time // 10 * factor_point) + 1000  # points give for time
+    points_given = round(total_time // 10 * factor_point) + 100  # points give for time
 
     # Обновляем словарь data с помощью новых значений
     data[save_number]['end_time'] = end_time
