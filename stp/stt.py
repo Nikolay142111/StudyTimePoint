@@ -141,7 +141,7 @@ def write_dates_holidays(start_date, end_date):
     end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d").date()
 
     # Создаем список дат в указанном диапазоне
-    date_range = [start_date + datetime.timedelta(days=x) for x in range((end_date - start_date).days + 1)]
+    date_range = [start_date + datetime.timedelta(days=x) for x in range((end_date - start_date).days)]
 
     try:
         # Загружаем уже записанные даты из файла holidays.json
@@ -161,7 +161,7 @@ def write_dates_holidays(start_date, end_date):
     with open('holidays.json', 'w') as file:
         json.dump(updated_dates, file, indent=4)
 
-write_dates_holidays("2023-08-07", "2023-08-10")
+#write_dates_holidays("2023-08-19", "2023-08-22")
 
 
 

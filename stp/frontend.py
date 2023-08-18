@@ -30,7 +30,7 @@ def function_start(message):
 
 
 @bot.message_handler(func=lambda message: message.text == 'Практика' or message.text == 'Теория')
-def function(message):
+def stop_recording(message):
     keyboard = types.ReplyKeyboardMarkup()
 
     button_stop = types.KeyboardButton("Остановить запись")
@@ -41,16 +41,21 @@ def function(message):
 
 
 @bot.message_handler(func=lambda message: message.text == 'Остановить запись')
-def stop_recording(message):
+def stop_recording_2(message):
     bot.send_message(message.chat.id, 'Запись закончена')
     stt.write_datalog_part_2()
 
 
 @bot.message_handler(func=lambda message: message.text == 'Указать каникулы')
-def stop_recording(message):
-    if message.text == 'Выставить каникулы':
-        bot.send_message(message.chat.id, 'Ну, потом')
-        # Тут будет мега прикольное выполнение функций из stt
+def write_holidays(message):
+    bot.send_message(message.chat.id, 'Введите диапазон каникул в формате: год-месяц-день год-месяц-день')
 
+
+@bot.message_handler()
+def write_holidays_2(message):
+    stt.write_dates_holidays(message.text[:10], message.text[11:])
+    bot.send_message(message.chat.id, 'Готово!')
+    bot.send_message(message.chat.id, f' Каникулы от {message.text[:10]} до {message.text[11:]}')
+    #2023-08-19 2023-08-22
 
 bot.polling(none_stop=True)
