@@ -1,3 +1,5 @@
+import datetime
+
 import telebot
 from telebot import types
 import stt
@@ -48,14 +50,29 @@ def stop_recording_2(message):
 
 @bot.message_handler(func=lambda message: message.text == 'Указать каникулы')
 def write_holidays(message):
-    bot.send_message(message.chat.id, 'Введите диапазон каникул в формате: год-месяц-день год-месяц-день')
+    bot.send_message(message.chat.id, 'Введите диапазон каникул в формате: месяц-день месяц-день')
+    global holidays
+    holidays = +1
 
 
 @bot.message_handler()
 def write_holidays_2(message):
-    stt.write_dates_holidays(message.text[:10], message.text[11:])
-    bot.send_message(message.chat.id, 'Готово!')
-    bot.send_message(message.chat.id, f' Каникулы от {message.text[:10]} до {message.text[11:]}')
-    #2023-08-19 2023-08-22
+    date_year = datetime.date.today().strftime("%Y-")
+    if holidays >= 1:
+        date_from = date_year + message.text[:5]
+        date_before = date_year + message.text[6:]
+
+        if date_from < datetime.date.today():
+            date_year = + 1
+            date_from = date_year + message.text[:5]
+        elif date_before < datetime.date.today():
+            date_year =+1
+            date_before = date_year + message.text[6:]
+
+        stt.write_dates_holidays(date_from, date_before)
+        bot.send_message(message.chat.id, 'Готово!')
+        bot.send_message(message.chat.id, f' Каникулы от {date_from} до {date_before}')
+        # 08-19 08-22
+
 
 bot.polling(none_stop=True)
