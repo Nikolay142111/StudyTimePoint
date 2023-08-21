@@ -52,7 +52,7 @@ def stop_recording_2(message):
 def write_holidays(message):
     bot.send_message(message.chat.id, 'Введите диапазон каникул в формате: месяц-день месяц-день')
     global holidays
-    holidays = +1
+    holidays = + 1
 
 
 @bot.message_handler()
@@ -62,12 +62,20 @@ def write_holidays_2(message):
         date_from = date_year + message.text[:5]
         date_before = date_year + message.text[6:]
 
-        if date_from < datetime.date.today():
-            date_year = + 1
+        date_from = datetime.datetime.strptime(str(date_from), "%Y-%m-%d").date()
+        date_before = datetime.datetime.strptime(str(date_before), "%Y-%m-%d").date()
+
+        if date_from < datetime.date.today() or date_before < datetime.date.today():
+
+            date_year_check = date_year.replace('-', '')
+            date_year = int(date_year_check)
+
+            date_year += 1
+            date_year = str(date_year) + '-'
+
             date_from = date_year + message.text[:5]
-        elif date_before < datetime.date.today():
-            date_year =+1
             date_before = date_year + message.text[6:]
+
 
         stt.write_dates_holidays(date_from, date_before)
         bot.send_message(message.chat.id, 'Готово!')

@@ -137,8 +137,8 @@ def number_assignment():
 
 def write_dates_holidays(start_date, end_date):
     # Преобразуем строки дат в объекты datetime.date
-    start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
-    end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d").date()
+    start_date = datetime.datetime.strptime(str(start_date), "%Y-%m-%d").date()
+    end_date = datetime.datetime.strptime(str(end_date), "%Y-%m-%d").date()
 
     # Создаем список дат в указанном диапазоне
     date_range = [start_date + datetime.timedelta(days=x) for x in range((end_date - start_date).days)]
