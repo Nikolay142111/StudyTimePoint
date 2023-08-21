@@ -1,7 +1,6 @@
 import datetime
 import os
 import json
-import time
 from datetime import date, timedelta
 
 
@@ -48,7 +47,6 @@ def create_json():
     else:
         print('Файл datalog.json уже существует')
 
-
 create_json()
 
 
@@ -92,6 +90,7 @@ def write_date_control(point):
         json.dump(data, file, indent=4)
 
 
+# Запись данных в файл datalog.json
 def write_datalog(new_obj):
     # Чтение содержимого файла JSON
     with open('datalog.json', 'r') as file:
@@ -119,22 +118,7 @@ def number_assignment():
     return save_number_check
 
 
-# записывает в файл интервалы каникул
-# def holidays_write_json(start_date, stop_date):
-#     # Чтение содержимого файла JSON
-#     with open('holidays.json', 'r') as file:
-#         data = json.load(file)
-#     # Присвоение новому ключу new_obj значения new_obj
-#     data['holidays ' + str(start_date) + ' - ' + str(stop_date)] = {'start_date_holidays': str(start_date),
-#                                                                     'stop_date_holidays': str(stop_date),
-#                                                                     'save_number': 0}
-#     # Запись обновлённых данных в файл JSON
-#     with open('holidays.json', 'w') as file:
-#         json.dump(data, file, indent=4)
-#
-#
-# # holidays_write_json('nohgfnon', '11')
-
+# запись в файл holidays.json - даты каникул
 def write_dates_holidays(start_date, end_date):
     # Преобразуем строки дат в объекты datetime.date
     start_date = datetime.datetime.strptime(str(start_date), "%Y-%m-%d").date()
@@ -161,10 +145,8 @@ def write_dates_holidays(start_date, end_date):
     with open('holidays.json', 'w') as file:
         json.dump(updated_dates, file, indent=4)
 
-#write_dates_holidays("2023-08-19", "2023-08-22")
 
-
-
+#проверка является ли дата каникулами (из списка holidays.json)
 def holiday_check(date):
     try:
         # Загружаем уже записанные даты из файла holidays.json
@@ -178,9 +160,8 @@ def holiday_check(date):
     else:
         return False
 
-result = holiday_check("2025-08-10")
-print(result)
 
+#вычисляет разницу во времени между двумя значениями и возвращает результат в минутах
 def calculate_time_difference(start_time, end_time):
     start_datetime = datetime.datetime.strptime(start_time, "%Y-%m-%d %H:%M")
     end_datetime = datetime.datetime.strptime(end_time, "%Y-%m-%d %H:%M")
@@ -189,6 +170,7 @@ def calculate_time_difference(start_time, end_time):
     return total_minutes
 
 
+#создает первую часть записи (Старт)
 def create_nev_log_part_1():
     name_obj = str(number_assignment() + 1)
     save_number = number_assignment() + 1
@@ -204,7 +186,8 @@ def create_nev_log_part_1():
     return(f'запись {name_obj} создана')
 
 
-def write_datalog_part_2():
+#создает вторую часть записи (Стоп)
+def write_datalog_part_2(factor_point=0.7):
     with open('datalog.json', 'r') as file:
         data = json.load(file)
 
@@ -213,7 +196,7 @@ def write_datalog_part_2():
     end_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")  # Дата и время сейчас
     start_time = data[save_number]['start_time']
     total_time = calculate_time_difference(start_time, end_time)
-    factor_point = 1
+
     points_given = round(total_time // 10 * factor_point) + 100  # points give for time
 
     # Обновляем словарь data с помощью новых значений
@@ -229,6 +212,3 @@ def write_datalog_part_2():
     return (f'запись {save_number} закрыта')
 
 
-#create_nev_log_part_1()
-
-#write_datalog_part_2()
