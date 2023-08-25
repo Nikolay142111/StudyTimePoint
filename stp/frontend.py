@@ -14,9 +14,8 @@ def start(message):
 
     # Создание кнопок и добавление их на клавиатуру
     button_start = types.KeyboardButton("Начать запись")
-    button_holidays = types.KeyboardButton("Указать каникулы")
 
-    keyboard.row(button_start, button_holidays)
+    keyboard.row(button_start)
     bot.send_message(message.chat.id, 'Выберите действие:', reply_markup=keyboard)
 
 
@@ -47,40 +46,16 @@ def stop_recording_2(message):
     bot.send_message(message.chat.id, 'Запись закончена')
     stt.write_datalog_part_2()
 
+        # Создание объекта клавиатуры
+    keyboard = types.ReplyKeyboardMarkup()
 
-@bot.message_handler(func=lambda message: message.text == 'Указать каникулы')
-def write_holidays(message):
-    bot.send_message(message.chat.id, 'Введите диапазон каникул в формате: месяц-день месяц-день')
-    global holidays
-    holidays = + 1
+    # Создание кнопок и добавление их на клавиатуру
+    button_start = types.KeyboardButton("Начать запись")
 
-
-@bot.message_handler()
-def write_holidays_2(message):
-    date_year = datetime.date.today().strftime("%Y-")
-    if holidays >= 1:
-        date_from = date_year + message.text[:5]
-        date_before = date_year + message.text[6:]
-
-        date_from = datetime.datetime.strptime(str(date_from), "%Y-%m-%d").date()
-        date_before = datetime.datetime.strptime(str(date_before), "%Y-%m-%d").date()
-
-        if date_from < datetime.date.today() or date_before < datetime.date.today():
-
-            date_year_check = date_year.replace('-', '')
-            date_year = int(date_year_check)
-
-            date_year += 1
-            date_year = str(date_year) + '-'
-
-            date_from = date_year + message.text[:5]
-            date_before = date_year + message.text[6:]
+    keyboard.row(button_start)
+    bot.send_message(message.chat.id, 'Выберите действие:', reply_markup=keyboard)
 
 
-        stt.write_dates_holidays(date_from, date_before)
-        bot.send_message(message.chat.id, 'Готово!')
-        bot.send_message(message.chat.id, f' Каникулы от {date_from} до {date_before}')
-        # 08-19 08-22
 
 
 bot.polling(none_stop=True)
