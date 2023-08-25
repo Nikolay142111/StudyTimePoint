@@ -70,9 +70,9 @@ def write_date_control(point):
             # сколько очков должно убавляться в этот день
             check_holidays = holiday_check(last_date)
             if check_holidays == True:
-                point_add = 25
+                point_add = 12# Point for holiday
             else:
-                point_add = 10
+                point_add = 12
 
             # получаем текущие очки
             last_point = data[last_date]["point"]
@@ -116,6 +116,7 @@ def number_assignment():
         save_number_check = 0  # Установите значение по умолчанию или обработайте ситуацию соответствующим образом
 
     return save_number_check
+
 
 
 # запись в файл holidays.json - даты каникул
