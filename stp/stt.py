@@ -89,6 +89,18 @@ def write_date_control(point):
     with open("datacontrol.json", "w") as file:
         json.dump(data, file, indent=4)
 
+def check_last_points():
+    # Чтение содержимого файла JSON
+    with open('datacontrol.json', 'r') as file:
+        data = json.load(file)
+
+    # Получаем последнюю дату
+    last_date = max(data.keys())
+
+    #получаем текущие очки
+    last_point = data[last_date]["point"]
+
+    return last_point
 
 # Запись данных в файл datalog.json
 def write_datalog(new_obj):
@@ -198,7 +210,7 @@ def write_datalog_part_2(factor_point=0.7):
     start_time = data[save_number]['start_time']
     total_time = calculate_time_difference(start_time, end_time)
 
-    points_given = round(total_time // 10 * factor_point) + 100  # points give for time
+    points_given = round(total_time // 10 * factor_point) # points give for time
 
     # Обновляем словарь data с помощью новых значений
     data[save_number]['end_time'] = end_time
