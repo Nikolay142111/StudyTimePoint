@@ -1,4 +1,3 @@
-import datetime
 
 import telebot
 from telebot import types
@@ -11,9 +10,9 @@ def read_config_file():
                 token = line.strip().split('TOKEN')[1].strip()
                 return token
 
-# Присвоим значение переменной
+
 token_value = read_config_file()
-#x='6592942350:AAE8GOMZ7USDZV73gbc-1eD7GQfW7XquLrc'
+
 
 bot = telebot.TeleBot(token_value)
 
