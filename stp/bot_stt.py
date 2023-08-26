@@ -4,7 +4,18 @@ import telebot
 from telebot import types
 import stt
 
-bot = telebot.TeleBot('6176765790:AAEhdEUDkzQkNyGk11YKeQYUl1SJ5XkRX3I')
+def read_config_file():
+    with open('config', 'r') as file:
+        for line in file:
+            if line.strip().startswith('TOKEN'):
+                token = line.strip().split('TOKEN')[1].strip()
+                return token
+
+# Присвоим значение переменной
+token_value = read_config_file()
+#x='6592942350:AAE8GOMZ7USDZV73gbc-1eD7GQfW7XquLrc'
+
+bot = telebot.TeleBot(token_value)
 
 
 @bot.message_handler(commands=['start'])
